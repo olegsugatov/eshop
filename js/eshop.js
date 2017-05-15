@@ -1,3 +1,5 @@
+var cart = {};
+
 $('document').ready(function(){
 	loadGoods();
 });
@@ -10,11 +12,23 @@ function loadGoods() {
 		for (var key in data) {
 			out += '<div class="single-goods">';
 			out += '<h3>' + data[key]['name'] + '</h3>';
-			out += '<p> Price: '+ data[key]['cost'] + '</p>';
+			out += '<p>Price: '+ data[key]['cost'] + '</p>';
 			out += '<img src="' + data[key].image +'">';
-			out += '<button>Купить</button>';
+		 	out += '<button class="add-to-cart" data-art="'+ key +'">Buy</button>';
 			out += '</div>';
 		}
 		$('#goods').html(out);
-	})
+		$('button.add-to-cart').on('click', addToCart);
+	});
+}
+
+function addToCart() {
+	// add goods in cart
+	var articul = $(this).attr('data-art');
+	if (cart[articul] != undefined) {
+		cart[articul]++;
+	} else {
+		cart[articul] = 1;
+	}
+	console.log(cart);
 }
