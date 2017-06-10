@@ -16,7 +16,7 @@ function loadGoods() {
 			out += '<h3>' + data[key]['name'] + '</h3>';
 			out += '<p>Price: '+ data[key]['cost'] + '</p>';
 			out += '<img src="' + data[key].image +'">';
-		 	out += '<button class="add-to-cart" data-art="'+ key +'">Buy</button>';
+		 	out += '<button class="add-to-cart" data-art="'+key+'">Buy</button>';
 			out += '</div>';
 		}
 		$('#goods').html(out);
@@ -40,7 +40,7 @@ function addToCart() {
 
 function checkCart() {
 	// Chek cart in localStorage
-	console.log(localStorage.getItem('d'));
+	// console.log(localStorage.getItem('d'));
 	if ( localStorage.getItem('cart') != null) {
 		cart = JSON.parse (localStorage.getItem('cart'));
 	}
@@ -52,5 +52,6 @@ function showMiniCart() {
 	for (var w in cart) {
 		out += w + '___' + cart[w] + '<br>';
 	}
+	out+='<br><a href="cart.html">Cart</a>';
 	$('#mini-cart').html(out);
 }

@@ -7,19 +7,55 @@ $.getJSON('goods.json', function(data){
 	// console.log(cart);
 	showCart(); // products input on page
 
-	function showCart(){
-		var out = '';
-		for (var key in cart) {
-			out += '<button class="delete">x</button>';
-			out += '<img src="'+goods[key].image+'" width="48">';
-			out += goods[key].name;
-			out += '<button class="minus">-</button>';
-			out += cart[key];
-			out += '<button class="plus">+</button>';
-			out += cart[key]*goods[key].cost;
-			out += '<br>';
+
+	function showCart() {
+		if ($.isEmptyObject(cart)) {
+			// Empty cart
+			var out = 'Cart Empty. Please, add products to cart <a href="index.html">Main Page</a>';
+			$('#my-cart').html(out);
+		} else {
+			var out = '';
+			for (var key in cart) {
+				out += '<button class="delete" data-art="'+key+'">x</button>';
+				out += '<img src="'+goods[key].image+'" width="48">';
+				out += goods[key].name;
+				out += '<button class="minus" data-art="'+key+'">-</button>';
+				out += cart[key];
+				out += '<button class="plus" data-art="'+key+'">+</button>';
+				out += cart[key]*goods[key].cost;
+				out += '<br>';
+			}
+			$('#my-cart').html(out);
+			$('.plus').on('click', plusGoods);
+			$('.minus').on('click', minusGoods);
+			$('.delete').on('click', deleteGoods);
 		}
-		$('#my-cart').html(out);
+	}
+
+	function plusGoods() {
+		var articul = $(this).attr('data-art');
+		cart[articul]++;
+		saveCartToLS(); // save cart in Local Storage
+		showCart();
+	}
+
+	function minusGoods() {
+		var articul = $(this).attr('data-art');
+		if (cart[articul]>1) { 
+			cart[articul]--;
+		} 
+		else {
+			delete cart[articul];
+		}
+		saveCartToLS(); // save cart in Local Storage
+		showCart();
+	}
+
+	function deleteGoods() {
+		var articul = $(this).attr('data-art');
+		delete cart[articul];
+		saveCartToLS(); // save cart in Local Storage
+		showCart();
 	}
 });
 
@@ -28,4 +64,8 @@ function checkCart() {
 	if ( localStorage.getItem('cart') != null) {
 		cart = JSON.parse (localStorage.getItem('cart'));
 	}
+}
+
+function saveCartToLS(){
+	localStorage.setItem('cart', JSON.stringify(cart));
 }
