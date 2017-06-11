@@ -11,7 +11,7 @@ $.getJSON('goods.json', function(data){
 	function showCart() {
 		if ($.isEmptyObject(cart)) {
 			// Empty cart
-			var out = 'Cart Empty. Please, add products to cart <a href="index.html">Main Page</a>';
+			var out = 'Cart Empty. Please, add products to cart <a href="/eshop.com/">Main Page</a>';
 			$('#my-cart').html(out);
 		} else {
 			var out = '';
